@@ -1,28 +1,3 @@
-✅ Parfait c'est fait. Ce code est maintenant **100% final prêt à l'emploi**.
-
-J'ai remplacé ton adresse email aux deux endroits dans le code: dans la zone d'information affichée ET directement dans le lien du formulaire. Tu n'as absolument rien d'autre à modifier du tout.
-
-
----
-
-| Modification demandée | Statut |
-|---|---|
-| ✅ Supprimer la ligne `Matériel bateau` | Terminé |
-| ✅ Corriger le bug du formulaire de contact | Terminé |
-| ✅ Remplacer par ta vraie adresse email | Terminé |
-
-👉 Procédure:
-1. Supprime complètement TOUT l'ancien contenu de ton fichier `index.html` sur Github
-2. Copie colle tout le code ci dessous à la place
-3. Appuie sur Commit
-4. Attends 60 secondes puis fait `Ctrl+F5` sur ta page publique
-
-C'est terminé.
-
-
----
-
-```html
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -34,7 +9,7 @@ C'est terminé.
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#0a0a0a;color:#e0e0e0;line-height:1.6;overflow-x:hidden}
         .bg-animation{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;background:linear-gradient(135deg,#0a0a0a 0%,#1a1a2e 50%,#16213e 100%)}
-        .bg-animation::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 20% 50%,rgba(0,255,136,0.03) 0%,transparent 50%),radial-gradient(circle at 80% 20%,rgba(0,168,255,0.03) 0%,transparent 50%),radial-gradient(circle at 40% 80%,rgba(138,43,226,0.03) 0%,transparent 50%);animation:bgPulse 8s ease-in-out infinite alternate}
+        .bg-animation::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 20% 50%,rgba(0, 255, 136, 0.03) 0%,transparent 50%),radial-gradient(circle at 80% 20%,rgba(0, 168, 255, 0.03) 0%,transparent 50%),radial-gradient(circle at 40% 80%,rgba(138, 43, 226, 0.03) 0%,transparent 50%);animation:bgPulse 8s ease-in-out infinite alternate}
         @keyframes bgPulse{0%{opacity:0.5}100%{opacity:1}}
         .navbar{position:fixed;top:0;width:100%;padding:1rem 2rem;background:rgba(10,10,10,0.95);backdrop-filter:blur(20px);z-index:1000;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(0,255,136,0.1);transition:all .3s}
         .navbar.scrolled{padding:.5rem 2rem;background:rgba(10,10,10,0.98)}
@@ -162,9 +137,9 @@ C'est terminé.
         <ul class="nav-links" id="navLinks">
             <li><a href="#accueil">Accueil</a></li>
             <li><a href="#apropos">À propos</a></li>
+            <li><a href="#formation">Formation</a></li>
             <li><a href="#experience">Expérience</a></li>
             <li><a href="#competences">Compétences</a></li>
-            <li><a href="#loisirs">Loisirs</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
         <div class="nav-toggle" id="navToggle" onclick="toggleNav()">
@@ -176,8 +151,11 @@ C'est terminé.
         <div class="hero-content">
             <div class="hero-avatar"><img src="https://via.placeholder.com/150" alt="Mehderic Talbot"></div>
             <h1 class="hero-title">Mehderic Talbot</h1>
-            <p class="hero-subtitle">Mécanicien Polyvalent</p>
-            <p class="hero-description">Passionné par la mécanique sous toutes ses formes, je mets mon expertise au service de la performance et de la fiabilité.</p>
+            <p class="hero-subtitle">Technicien Informatique</p>
+            <p class="hero-description">
+                BAC Pro Systèmes Numériques<br>
+                Recherche alternance Apprentissage / Professionnalisation
+            </p>
             <div class="hero-buttons">
                 <a href="#contact" class="btn btn-primary">Me contacter</a>
                 <a href="#experience" class="btn btn-secondary">Mon parcours</a>
@@ -189,24 +167,51 @@ C'est terminé.
     <section class="section" id="apropos">
         <div class="section-header reveal">
             <h2 class="section-title">À propos de moi</h2>
-            <p class="section-subtitle">Découvrez mon profil et mes aspirations</p>
         </div>
         <div class="about-grid">
             <div class="about-text reveal">
-                <p>Mécanicien polyvalent avec une solide expérience dans l'entretien et la réparation de véhicules, engins et matériel nautique.</p>
-                <p>Rigoureux et autonome, je m'adapte rapidement à de nouveaux environnements de travail et je suis toujours à la recherche de nouveaux défis techniques.</p>
+                <p>
+                    Passionné par l'informatique et les nouvelles technologies, rigoureux et polyvalent.
+                    Je suis actuellement en formation et je recherche une alternance pour continuer à développer mes compétences en milieu professionnel.
+                </p>
+                <p>
+                    Autonome et adaptable, je travaille aussi très bien en équipe. J'ai déjà de l'expérience terrain acquise lors de mes nombreux stages.
+                </p>
                 <div class="about-info">
-                    <div class="info-item"><div class="label">Localisation</div><div class="value">Nouvelle-Calédonie</div></div>
-                    <div class="info-item"><div class="label">Permis</div><div class="value">B (Véhicule léger)</div></div>
+                    <div class="info-item"><div class="label">Localisation</div><div class="value">Petit Bourg, Guadeloupe</div></div>
+                    <div class="info-item"><div class="label">Permis</div><div class="value">Permis B</div></div>
                     <div class="info-item"><div class="label">Disponibilité</div><div class="value">Immédiate</div></div>
-                    <div class="info-item"><div class="label">Statut</div><div class="value">En recherche</div></div>
+                    <div class="info-item"><div class="label">Statut</div><div class="value">En recherche d'alternance</div></div>
                 </div>
             </div>
             <div class="about-stats reveal">
-                <div class="stat-card"><div class="stat-number" data-count="5">0</div><div class="stat-label">Années d'expérience</div></div>
-                <div class="stat-card"><div class="stat-number" data-count="4">0</div><div class="stat-label">Postes occupés</div></div>
-                <div class="stat-card"><div class="stat-number" data-count="3">0</div><div class="stat-label">Domaines maîtrisés</div></div>
+                <div class="stat-card"><div class="stat-number" data-count="4">0</div><div class="stat-label">Stages professionnels</div></div>
+                <div class="stat-card"><div class="stat-number" data-count="3">0</div><div class="stat-label">Années d'expérience</div></div>
+                <div class="stat-card"><div class="stat-number" data-count="6">0</div><div class="stat-label">Domaines de compétences</div></div>
                 <div class="stat-card"><div class="stat-number" data-count="100">0</div><div class="stat-label">% Motivation</div></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="formation">
+        <div class="section-header reveal">
+            <h2 class="section-title">Formation</h2>
+        </div>
+        <div class="timeline">
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-date">2024</div>
+                    <h3 class="timeline-title">BAC Pro SN</h3>
+                    <div class="timeline-company">Systèmes Numériques</div>
+                </div>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-date">2021</div>
+                    <h3 class="timeline-title">Brevet des Collèges</h3>
+                </div>
             </div>
         </div>
     </section>
@@ -216,129 +221,131 @@ C'est terminé.
             <h2 class="section-title">Expérience Professionnelle</h2>
         </div>
         <div class="timeline">
+
             <div class="timeline-item reveal">
                 <div class="timeline-dot"></div>
                 <div class="timeline-content">
-                    <div class="timeline-date">2023 - Présent</div>
-                    <h3 class="timeline-title">Mécanicien Polyvalent</h3>
-                    <div class="timeline-company">Nauti Services</div>
+                    <div class="timeline-date">2024</div>
+                    <h3 class="timeline-title">Stagiaire Technicien Informatique</h3>
+                    <div class="timeline-company">Région Guadeloupe</div>
                     <div class="timeline-description">
                         <ul>
-                            <li>Entretien courant</li>
-                            <li>Moteurs hors bord</li>
-                            <li>Système hydraulique</li>
+                            <li>Câblage réseaux communication et téléphonique</li>
                         </ul>
                     </div>
                 </div>
             </div>
+
             <div class="timeline-item reveal">
                 <div class="timeline-dot"></div>
                 <div class="timeline-content">
-                    <div class="timeline-date">2022 - 2023</div>
-                    <h3 class="timeline-title">Mécanicien Engins</h3>
-                    <div class="timeline-company">SLN (Doniambo)</div>
+                    <div class="timeline-date">2024</div>
+                    <h3 class="timeline-title">Stagiaire Technicien Informatique</h3>
+                    <div class="timeline-company">MARC FELER - Vieux Fort</div>
                     <div class="timeline-description">
                         <ul>
-                            <li>Maintenance préventive et corrective</li>
-                            <li>Engins de chantier et manutention</li>
-                            <li>Diagnostic de pannes complexes</li>
+                            <li>Maintenance informatique</li>
+                            <li>Remplacement plaques thermiques, écrans, batteries</li>
+                            <li>Réparation ordinateurs portables</li>
                         </ul>
                     </div>
                 </div>
             </div>
+
             <div class="timeline-item reveal">
                 <div class="timeline-dot"></div>
                 <div class="timeline-content">
-                    <div class="timeline-date">2021 - 2022</div>
-                    <h3 class="timeline-title">Mécanicien Automobile</h3>
-                    <div class="timeline-company">Garage Auto Plus</div>
+                    <div class="timeline-date">2023</div>
+                    <h3 class="timeline-title">Stagiaire Informatique</h3>
+                    <div class="timeline-company">Mairie de Saint Claude</div>
                     <div class="timeline-description">
                         <ul>
-                            <li>Révision et entretien courant</li>
-                            <li>Réparation moteur et transmission</li>
-                            <li>Diagnostic électronique</li>
+                            <li>Câblage réseaux et téléphonie</li>
+                            <li>Test et diagnostic PC</li>
+                            <li>Configuration et déploiement postes</li>
                         </ul>
                     </div>
                 </div>
             </div>
+
             <div class="timeline-item reveal">
                 <div class="timeline-dot"></div>
                 <div class="timeline-content">
-                    <div class="timeline-date">2020 - 2021</div>
-                    <h3 class="timeline-title">Apprenti Mécanicien</h3>
-                    <div class="timeline-company">Centre de Formation</div>
+                    <div class="timeline-date">2021</div>
+                    <h3 class="timeline-title">Stagiaire Informatique</h3>
+                    <div class="timeline-company">Conseil Départemental</div>
                     <div class="timeline-description">
                         <ul>
-                            <li>Formation en alternance</li>
-                            <li>Bases de la mécanique générale</li>
-                            <li>Soudure et usinage</li>
+                            <li>Installation équipements et logiciels</li>
+                            <li>Réparation ordinateurs</li>
+                            <li>Optimisation et maintenance systèmes</li>
                         </ul>
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
 
     <section class="section" id="competences">
         <div class="section-header reveal">
-            <h2 class="section-title">Compétences</h2>
+            <h2 class="section-title">Compétences & Atouts</h2>
         </div>
         <div class="skills-container">
             <div class="skill-category reveal">
-                <h3 class="skill-category-title"><i class="fas fa-car"></i> Mécanique Automobile</h3>
-                <div class="skill-item"><div class="skill-header"><span class="skill-name">Moteur thermique</span><span class="skill-percentage">90%</span></div><div class="skill-bar"><div class="skill-progress" data-width="90"></div></div></div>
-                <div class="skill-item"><div class="skill-header"><span class="skill-name">Diagnostic électronique</span><span class="skill-percentage">75%</span></div><div class="skill-bar"><div class="skill-progress" data-width="75"></div></div></div>
-                <div class="skill-item"><div class="skill-header"><span class="skill-name">Transmission / Embrayage</span><span class="skill-percentage">85%</span></div><div class="skill-bar"><div class="skill-progress" data-width="85"></div></div></div>
+                <h3 class="skill-category-title"><i class="fas fa-desktop"></i> Hardware</h3>
+                <div class="skill-item"><div class="skill-header"><span class="skill-name">Réparation ordinateur portable</span><span class="skill-percentage">90%</span></div><div class="skill-bar"><div class="skill-progress" data-width="90"></div></div></div>
+                <div class="skill-item"><div class="skill-header"><span class="skill-name">Composants interne</span><span class="skill-percentage">85%</span></div><div class="skill-bar"><div class="skill-progress" data-width="85"></div></div></div>
+                <div class="skill-item"><div class="skill-header"><span class="skill-name">Diagnostic panne</span><span class="skill-percentage">80%</span></div><div class="skill-bar"><div class="skill-progress" data-width="80"></div></div></div>
             </div>
             <div class="skill-category reveal">
-                <h3 class="skill-category-title"><i class="fas fa-ship"></i> Mécanique Nautique</h3>
-                <div class="skill-item"><div class="skill-header"><span class="skill-name">Moteurs hors-bord</span><span class="skill-percentage">85%</span></div><div class="skill-bar"><div class="skill-progress" data-width="85"></div></div></div>
-                <div class="skill-item"><div class="skill-header"><span class="skill-name">Systèmes hydrauliques</span><span class="skill-percentage">80%</span></div><div class="skill-bar"><div class="skill-progress" data-width="80"></div></div></div>
-                <div class="skill-item"><div class="skill-header"><span class="skill-name">Entretien coque & structure</span><span class="skill-percentage">70%</span></div><div class="skill-bar"><div class="skill-progress" data-width="70"></div></div></div>
+                <h3 class="skill-category-title"><i class="fas fa-network-wired"></i> Réseaux</h3>
+                <div class="skill-item"><div class="skill-header"><span class="skill-name">Câblage réseau</span><span class="skill-percentage">90%</span></div><div class="skill-bar"><div class="skill-progress" data-width="90"></div></div></div>
+                <div class="skill-item"><div class="skill-header"><span class="skill-name">Téléphonie IP</span><span class="skill-percentage">75%</span></div><div class="skill-bar"><div class="skill-progress" data-width="75"></div></div></div>
+                <div class="skill-item"><div class="skill-header"><span class="skill-name">Systèmes d'exploitation</span><span class="skill-percentage">75%</span></div><div class="skill-bar"><div class="skill-progress" data-width="75"></div></div></div>
             </div>
             <div class="skill-category reveal">
-                <h3 class="skill-category-title"><i class="fas fa-tools"></i> Compétences Transversales</h3>
-                <div class="skill-item"><div class="skill-header"><span class="skill-name">Soudure (ARC / MIG)</span><span class="skill-percentage">80%</span></div><div class="skill-bar"><div class="skill-progress" data-width="80"></div></div></div>
-                <div class="skill-item"><div class="skill-header"><span class="skill-name">Lecture de plans</span><span class="skill-percentage">70%</span></div><div class="skill-bar"><div class="skill-progress" data-width="70"></div></div></div>
-                <div class="skill-item"><div class="skill-header"><span class="skill-name">Travail en équipe</span><span class="skill-percentage">95%</span></div><div class="skill-bar"><div class="skill-progress" data-width="95"></div></div></div>
+                <h3 class="skill-category-title"><i class="fas fa-star"></i> Atouts</h3>
+                <div class="skill-item"><div class="skill-header"><span class="skill-name">Suite Office</span><span class="skill-percentage">70%</span></div><div class="skill-bar"><div class="skill-progress" data-width="70"></div></div></div>
+                <div class="skill-item"><div class="skill-header"><span class="skill-name">Anglais</span><span class="skill-percentage">65%</span></div><div class="skill-bar"><div class="skill-progress" data-width="65"></div></div></div>
+                <div class="skill-item"><div class="skill-header"><span class="skill-name">Esprit d'équipe</span><span class="skill-percentage">95%</span></div><div class="skill-bar"><div class="skill-progress" data-width="95"></div></div></div>
             </div>
         </div>
     </section>
 
     <section class="section" id="loisirs">
         <div class="section-header reveal">
-            <h2 class="section-title">Loisirs & Passions</h2>
+            <h2 class="section-title">Centres d'intérêt</h2>
         </div>
         <div class="hobbies-grid">
-            <div class="hobby-card reveal"><div class="hobby-icon"><i class="fas fa-motorcycle"></i></div><h3 class="hobby-name">Moto</h3><p class="hobby-description">Passionné de mécanique moto et de balades</p></div>
-            <div class="hobby-card reveal"><div class="hobby-icon"><i class="fas fa-fish"></i></div><h3 class="hobby-name">Pêche</h3><p class="hobby-description">Pêche en mer et en rivière</p></div>
-            <div class="hobby-card reveal"><div class="hobby-icon"><i class="fas fa-futbol"></i></div><h3 class="hobby-name">Sport</h3><p class="hobby-description">Football et activités sportives</p></div>
-            <div class="hobby-card reveal"><div class="hobby-icon"><i class="fas fa-wrench"></i></div><h3 class="hobby-name">Bricolage</h3><p class="hobby-description">Projets mécaniques personnels</p></div>
+            <div class="hobby-card reveal"><div class="hobby-icon"><i class="fas fa-running"></i></div><h3 class="hobby-name">Sport</h3></div>
+            <div class="hobby-card reveal"><div class="hobby-icon"><i class="fas fa-film"></i></div><h3 class="hobby-name">Cinéma / Séries</h3></div>
+            <div class="hobby-card reveal"><div class="hobby-icon"><i class="fas fa-music"></i></div><h3 class="hobby-name">Musique</h3></div>
+            <div class="hobby-card reveal"><div class="hobby-icon"><i class="fas fa-book"></i></div><h3 class="hobby-name">Lecture / Documentaires</h3></div>
         </div>
     </section>
 
     <section class="section" id="contact">
         <div class="section-header reveal">
             <h2 class="section-title">Me Contacter</h2>
-            <p class="section-subtitle">N'hésitez pas à me joindre</p>
         </div>
         <div class="contact-container">
             <div class="contact-info reveal">
                 <div class="contact-item">
                     <div class="contact-icon"><i class="fas fa-envelope"></i></div>
-                    <div><div class="contact-label">Email</div><div class="contact-value">mjgpvkdl@gmail.com</div></div>
+                    <div><div class="contact-label">Email</div><div class="contact-value">mehderictalbot7@gmail.com</div></div>
                 </div>
                 <div class="contact-item">
                     <div class="contact-icon"><i class="fas fa-phone"></i></div>
-                    <div><div class="contact-label">Téléphone</div><div class="contact-value">+687 XX XX XX</div></div>
+                    <div><div class="contact-label">Téléphone</div><div class="contact-value">0690 48 49 27</div></div>
                 </div>
                 <div class="contact-item">
                     <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
-                    <div><div class="contact-label">Localisation</div><div class="contact-value">Nouméa, Nouvelle-Calédonie</div></div>
+                    <div><div class="contact-label">Localisation</div><div class="contact-value">Petit Bourg, Guadeloupe</div></div>
                 </div>
             </div>
             <div class="reveal">
-                <form class="contact-form" action="mailto:mjgpvkdl@gmail.com" method="post" enctype="text/plain">
+                <form class="contact-form" action="mailto:mehderictalbot7@gmail.com" method="post" enctype="text/plain">
                     <div class="form-group"><input type="text" name="name" placeholder="Votre nom" required></div>
                     <div class="form-group"><input type="email" name="email" placeholder="Votre email" required></div>
                     <div class="form-group"><textarea name="message" placeholder="Votre message" required></textarea></div>
@@ -349,11 +356,6 @@ C'est terminé.
     </section>
 
     <footer class="footer">
-        <div class="footer-social">
-            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        </div>
         <p>© 2025 Mehderic Talbot. Tous droits réservés.</p>
     </footer>
 
