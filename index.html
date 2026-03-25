@@ -1,748 +1,314 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MEHDERIC TALBOT - CV Interactif</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-<style>
-  :root {
-    --bg: #0a0a0f;
-    --bg2: #111118;
-    --bg3: #181824;
-    --card: #16161f;
-    --border: rgba(255,255,255,0.07);
-    --accent: #6c63ff;
-    --accent2: #a78bfa;
-    --accent3: #38bdf8;
-    --text: #e8e8f0;
-    --muted: #7a7a96;
-    --white: #ffffff;
-    --success: #34d399;
-    --error: #f87171;
-    --nav-h: 70px;
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
-
-  /* ── NOISE OVERLAY ── */
-  body::before {
-    content: '';
-    position: fixed; inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none; z-index: 0; opacity: .4;
-  }
-
-  /* ── NAV ── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    height: var(--nav-h);
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 48px;
-    background: rgba(10,10,15,0.85);
-    backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-    transition: background .3s;
-  }
-
-  .nav-logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800; font-size: 1.4rem;
-    background: linear-gradient(135deg, var(--accent), var(--accent3));
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    letter-spacing: -0.02em;
-  }
-
-  .nav-links { display: flex; gap: 36px; list-style: none; }
-
-  .nav-links a {
-    color: var(--muted); text-decoration: none;
-    font-size: .85rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase;
-    transition: color .25s;
-    position: relative;
-  }
-  .nav-links a::after {
-    content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 1px;
-    background: var(--accent); transform: scaleX(0); transition: transform .25s;
-  }
-  .nav-links a:hover { color: var(--white); }
-  .nav-links a:hover::after { transform: scaleX(1); }
-
-  /* ── HERO ── */
-  #home {
-    min-height: 100vh;
-    display: flex; align-items: center; justify-content: center;
-    position: relative; text-align: center; padding: 120px 24px 80px;
-    overflow: hidden;
-  }
-
-  .hero-glow {
-    position: absolute; border-radius: 50%; filter: blur(120px); pointer-events: none;
-  }
-  .hero-glow-1 {
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(108,99,255,0.15), transparent 70%);
-    top: -100px; left: 50%; transform: translateX(-50%);
-  }
-  .hero-glow-2 {
-    width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(56,189,248,0.1), transparent 70%);
-    bottom: 0; right: -100px;
-  }
-
-  .hero-content { position: relative; z-index: 1; }
-
-  .hero-badge {
-    display: inline-block;
-    padding: 6px 18px;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent2);
-    margin-bottom: 28px;
-    background: rgba(108,99,255,0.08);
-    animation: fadeUp .8s ease both;
-  }
-
-  .hero-name {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(3rem, 9vw, 6.5rem);
-    font-weight: 800;
-    letter-spacing: -0.04em;
-    line-height: 1;
-    color: var(--white);
-    animation: fadeUp .8s .1s ease both;
-  }
-
-  .hero-title-wrap {
-    margin-top: 18px;
-    font-size: clamp(1rem, 2.5vw, 1.25rem);
-    color: var(--muted);
-    font-weight: 300;
-    min-height: 2em;
-    animation: fadeUp .8s .2s ease both;
-  }
-
-  #typewriter { color: var(--accent3); font-weight: 500; }
-  .cursor { display: inline-block; width: 2px; height: 1.1em; background: var(--accent3); margin-left: 3px; vertical-align: middle; animation: blink 1s step-end infinite; }
-  @keyframes blink { 0%,100%{opacity:1}50%{opacity:0} }
-
-  .hero-btns {
-    margin-top: 42px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
-    animation: fadeUp .8s .35s ease both;
-  }
-
-  .btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 14px 32px; border-radius: 10px;
-    font-family: 'DM Sans', sans-serif; font-size: .9rem; font-weight: 500;
-    text-decoration: none; cursor: pointer; border: none;
-    transition: transform .2s, box-shadow .2s, background .2s;
-  }
-  .btn-primary {
-    background: linear-gradient(135deg, var(--accent), #8b5cf6);
-    color: #fff;
-    box-shadow: 0 0 30px rgba(108,99,255,0.3);
-  }
-  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 40px rgba(108,99,255,0.45); }
-
-  .btn-outline {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text);
-  }
-  .btn-outline:hover { transform: translateY(-3px); background: var(--card); border-color: var(--accent); }
-
-  /* ── SECTIONS ── */
-  section { padding: 100px 24px; position: relative; }
-
-  .section-inner { max-width: 1100px; margin: 0 auto; }
-
-  .section-label {
-    font-size: .7rem; letter-spacing: .2em; text-transform: uppercase;
-    color: var(--accent); font-weight: 600; margin-bottom: 12px;
-  }
-
-  .section-title {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(2rem, 5vw, 3rem);
-    font-weight: 800; letter-spacing: -0.03em;
-    color: var(--white); margin-bottom: 60px;
-  }
-
-  /* ── ABOUT ── */
-  #about { background: var(--bg2); }
-
-  .about-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px;
-  }
-
-  .info-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 28px;
-    transition: transform .25s, border-color .25s, box-shadow .25s;
-    position: relative; overflow: hidden;
-  }
-  .info-card::before {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(135deg, rgba(108,99,255,0.05), transparent);
-    opacity: 0; transition: opacity .25s;
-  }
-  .info-card:hover { transform: translateY(-5px); border-color: rgba(108,99,255,0.35); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
-  .info-card:hover::before { opacity: 1; }
-
-  .info-icon {
-    width: 44px; height: 44px; border-radius: 12px;
-    background: rgba(108,99,255,0.12);
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 16px; font-size: 1.3rem;
-  }
-
-  .info-label { font-size: .72rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent2); margin-bottom: 8px; font-weight: 600; }
-
-  .info-value { color: var(--text); font-size: .95rem; line-height: 1.5; }
-
-  .formation-item { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
-  .formation-year { font-size: .72rem; color: var(--accent3); letter-spacing: .08em; text-transform: uppercase; font-weight: 600; }
-  .formation-name { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--white); font-size: 1rem; }
-  .formation-sub { font-size: .82rem; color: var(--muted); }
-
-  /* ── SKILLS ── */
-  #skills { background: var(--bg); }
-
-  .skills-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;
-  }
-
-  .skill-card {
-    background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px;
-    transition: transform .25s, border-color .25s, box-shadow .25s;
-  }
-  .skill-card:hover { transform: translateY(-4px); border-color: rgba(108,99,255,0.35); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
-
-  .skill-head { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
-  .skill-icon { font-size: 1.5rem; }
-  .skill-name { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem; color: var(--white); }
-
-  .skill-bar-wrap { background: rgba(255,255,255,0.06); border-radius: 999px; height: 6px; overflow: hidden; }
-  .skill-bar {
-    height: 100%; border-radius: 999px;
-    background: linear-gradient(90deg, var(--accent), var(--accent3));
-    width: 0; transition: width 1.2s cubic-bezier(.25,.46,.45,.94);
-  }
-
-  .skill-desc { margin-top: 12px; font-size: .85rem; color: var(--muted); }
-
-  /* Languages */
-  .lang-grid { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 12px; }
-  .lang-pill {
-    display: flex; align-items: center; gap: 8px;
-    background: rgba(255,255,255,0.05); border: 1px solid var(--border);
-    border-radius: 999px; padding: 6px 14px; font-size: .82rem;
-  }
-  .lang-dot { width: 8px; height: 8px; border-radius: 50%; }
-  .lang-native { background: var(--success); }
-  .lang-inter { background: var(--accent3); }
-
-  /* ── EXPERIENCE ── */
-  #experience { background: var(--bg2); }
-
-  .timeline { position: relative; padding-left: 32px; }
-  .timeline::before {
-    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px;
-    background: linear-gradient(to bottom, var(--accent), transparent);
-  }
-
-  .timeline-item {
-    position: relative; margin-bottom: 44px;
-    opacity: 0; transform: translateX(-20px);
-    transition: opacity .5s, transform .5s;
-  }
-  .timeline-item.visible { opacity: 1; transform: translateX(0); }
-
-  .timeline-dot {
-    position: absolute; left: -38px; top: 6px;
-    width: 14px; height: 14px; border-radius: 50%;
-    background: var(--accent); border: 2px solid var(--bg2);
-    box-shadow: 0 0 10px rgba(108,99,255,0.6);
-  }
-
-  .timeline-year {
-    font-size: .72rem; letter-spacing: .12em; text-transform: uppercase;
-    color: var(--accent3); font-weight: 600; margin-bottom: 6px;
-  }
-
-  .timeline-card {
-    background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 22px 24px;
-    transition: border-color .25s, box-shadow .25s;
-  }
-  .timeline-card:hover { border-color: rgba(108,99,255,0.35); box-shadow: 0 8px 24px rgba(0,0,0,0.3); }
-
-  .timeline-role { font-family: 'Syne', sans-serif; font-weight: 700; color: var(--white); font-size: 1.05rem; }
-  .timeline-desc { font-size: .85rem; color: var(--muted); margin-top: 4px; }
-
-  /* Qualités */
-  .qualities-wrap { margin-top: 60px; }
-  .qualities-title { font-family: 'Syne', sans-serif; font-size: 1.3rem; font-weight: 700; color: var(--white); margin-bottom: 20px; }
-  .qualities-list { display: flex; flex-wrap: wrap; gap: 12px; }
-  .quality-tag {
-    padding: 8px 20px; border-radius: 999px;
-    border: 1px solid var(--border);
-    font-size: .85rem; color: var(--text);
-    background: var(--card);
-    transition: border-color .25s, background .25s, transform .2s;
-  }
-  .quality-tag:hover { border-color: var(--accent); background: rgba(108,99,255,0.1); transform: translateY(-2px); }
-
-  /* ── CONTACT ── */
-  #contact { background: var(--bg); }
-
-  .contact-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 48px; }
-
-  @media (max-width: 768px) {
-    .contact-grid { grid-template-columns: 1fr; }
-    nav { padding: 0 20px; }
-    .nav-links { display: none; }
-  }
-
-  .contact-info h3 {
-    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.1rem;
-    color: var(--white); margin-bottom: 24px;
-  }
-
-  .contact-item {
-    display: flex; align-items: center; gap: 14px;
-    margin-bottom: 18px; padding: 16px 20px;
-    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
-    transition: border-color .25s, transform .2s;
-    text-decoration: none; color: var(--text);
-  }
-  .contact-item:hover { border-color: var(--accent); transform: translateX(4px); }
-  .contact-item-icon { font-size: 1.2rem; width: 36px; text-align: center; }
-  .contact-item-text { font-size: .9rem; }
-
-  /* FORM */
-  .contact-form { display: flex; flex-direction: column; gap: 16px; }
-
-  .form-group { display: flex; flex-direction: column; gap: 6px; }
-
-  .form-label { font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
-
-  .form-input, .form-textarea {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 10px; padding: 14px 18px;
-    color: var(--text); font-family: 'DM Sans', sans-serif; font-size: .9rem;
-    outline: none; transition: border-color .25s, box-shadow .25s;
-  }
-  .form-input:focus, .form-textarea:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(108,99,255,0.15);
-  }
-  .form-textarea { resize: vertical; min-height: 130px; }
-
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-
-  .btn-send {
-    padding: 14px 32px; border-radius: 10px; border: none; cursor: pointer;
-    font-family: 'DM Sans', sans-serif; font-size: .95rem; font-weight: 600;
-    background: linear-gradient(135deg, var(--accent), #8b5cf6);
-    color: #fff; transition: transform .2s, box-shadow .2s, opacity .2s;
-    box-shadow: 0 0 24px rgba(108,99,255,0.25);
-  }
-  .btn-send:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(108,99,255,0.4); }
-  .btn-send:disabled { opacity: .6; cursor: not-allowed; }
-
-  .form-feedback {
-    padding: 12px 18px; border-radius: 10px; font-size: .88rem; font-weight: 500;
-    display: none;
-  }
-  .form-feedback.success { display: block; background: rgba(52,211,153,0.1); border: 1px solid rgba(52,211,153,0.3); color: var(--success); }
-  .form-feedback.error { display: block; background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.3); color: var(--error); }
-
-  /* ── EMAILJS NOTE ── */
-  .emailjs-note {
-    background: rgba(108,99,255,0.08); border: 1px solid rgba(108,99,255,0.2);
-    border-radius: 12px; padding: 18px 22px; margin-bottom: 24px;
-    font-size: .83rem; color: var(--accent2); line-height: 1.6;
-  }
-  .emailjs-note strong { color: var(--white); }
-  .emailjs-note a { color: var(--accent3); }
-
-  /* ── FOOTER ── */
-  footer {
-    text-align: center; padding: 32px 24px;
-    border-top: 1px solid var(--border);
-    font-size: .82rem; color: var(--muted);
-  }
-
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .reveal {
-    opacity: 0; transform: translateY(30px);
-    transition: opacity .7s ease, transform .7s ease;
-  }
-  .reveal.visible { opacity: 1; transform: translateY(0); }
-
-  /* Scroll progress bar */
-  #progress-bar {
-    position: fixed; top: 0; left: 0; height: 3px; z-index: 200;
-    background: linear-gradient(90deg, var(--accent), var(--accent3));
-    width: 0%; transition: width .1s linear;
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV - Mehderic Talbot</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#0a0a0a;color:#e0e0e0;line-height:1.6;overflow-x:hidden}
+        .bg-animation{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;background:linear-gradient(135deg,#0a0a0a 0%,#1a1a2e 50%,#16213e 100%)}
+        .bg-animation::before{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:radial-gradient(circle at 20% 50%,rgba(0,255,136,0.03) 0%,transparent 50%),radial-gradient(circle at 80% 20%,rgba(0,168,255,0.03) 0%,transparent 50%),radial-gradient(circle at 40% 80%,rgba(138,43,226,0.03) 0%,transparent 50%);animation:bgPulse 8s ease-in-out infinite alternate}
+        @keyframes bgPulse{0%{opacity:0.5}100%{opacity:1}}
+        .navbar{position:fixed;top:0;width:100%;padding:1rem 2rem;background:rgba(10,10,10,0.95);backdrop-filter:blur(20px);z-index:1000;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(0,255,136,0.1);transition:all .3s}
+        .navbar.scrolled{padding:.5rem 2rem;background:rgba(10,10,10,0.98)}
+        .nav-logo{font-size:1.5rem;font-weight:700;background:linear-gradient(135deg,#00ff88,#00a8ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .nav-links{display:flex;list-style:none;gap:2rem}
+        .nav-links a{color:#888;text-decoration:none;font-size:.9rem;text-transform:uppercase;letter-spacing:2px;transition:all .3s;position:relative}
+        .nav-links a::after{content:'';position:absolute;bottom:-5px;left:0;width:0;height:2px;background:linear-gradient(90deg,#00ff88,#00a8ff);transition:width .3s}
+        .nav-links a:hover{color:#00ff88}
+        .nav-links a:hover::after{width:100%}
+        .nav-toggle{display:none;flex-direction:column;cursor:pointer;gap:5px}
+        .nav-toggle span{width:25px;height:2px;background:#00ff88;transition:all .3s}
+        .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:6rem 2rem 2rem;position:relative}
+        .hero-content{text-align:center;max-width:800px;animation:fadeInUp 1s ease forwards}
+        .hero-avatar{width:150px;height:150px;border-radius:50%;margin:0 auto 2rem;background:linear-gradient(135deg,#00ff88,#00a8ff);padding:4px;animation:float 6s ease-in-out infinite}
+        .hero-avatar img{width:100%;height:100%;border-radius:50%;object-fit:cover;background:#1a1a2e}
+        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-20px)}}
+        .hero-title{font-size:3.5rem;font-weight:700;margin-bottom:.5rem;background:linear-gradient(135deg,#ffffff,#00ff88);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .hero-subtitle{font-size:1.5rem;color:#00a8ff;margin-bottom:1rem;font-weight:300}
+        .hero-description{font-size:1.1rem;color:#888;margin-bottom:2rem;max-width:600px;margin-left:auto;margin-right:auto}
+        .hero-buttons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+        .btn{padding:.8rem 2rem;border-radius:50px;text-decoration:none;font-size:.9rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;transition:all .3s;border:none;cursor:pointer}
+        .btn-primary{background:linear-gradient(135deg,#00ff88,#00a8ff);color:#0a0a0a}
+        .btn-primary:hover{transform:translateY(-3px);box-shadow:0 10px 40px rgba(0,255,136,.3)}
+        .btn-secondary{background:transparent;color:#00ff88;border:2px solid #00ff88}
+        .btn-secondary:hover{background:rgba(0,255,136,.1);transform:translateY(-3px)}
+        .scroll-indicator{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);animation:bounce 2s infinite}
+        .scroll-indicator i{color:#00ff88;font-size:1.5rem}
+        @keyframes bounce{0%,20%,50%,80%,100%{transform:translateX(-50%) translateY(0)}40%{transform:translateX(-50%) translateY(-10px)}60%{transform:translateX(-50%) translateY(-5px)}}
+        .section{padding:5rem 2rem;max-width:1200px;margin:0 auto}
+        .section-header{text-align:center;margin-bottom:4rem}
+        .section-title{font-size:2.5rem;font-weight:700;margin-bottom:1rem;position:relative;display:inline-block}
+        .section-title::after{content:'';position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);width:60px;height:4px;background:linear-gradient(90deg,#00ff88,#00a8ff);border-radius:2px}
+        .section-subtitle{color:#888;font-size:1.1rem;margin-top:1.5rem}
+        .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+        .about-text p{color:#aaa;margin-bottom:1.5rem;font-size:1.05rem}
+        .about-info{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2rem}
+        .info-item{padding:1rem;background:rgba(255,255,255,.02);border-radius:10px;border:1px solid rgba(255,255,255,.05)}
+        .info-item .label{color:#00ff88;font-size:.8rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:.3rem}
+        .info-item .value{color:#e0e0e0;font-size:1rem}
+        .about-stats{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+        .stat-card{text-align:center;padding:2rem;background:rgba(255,255,255,.02);border-radius:15px;border:1px solid rgba(255,255,255,.05);transition:all .3s}
+        .stat-card:hover{transform:translateY(-5px);border-color:rgba(0,255,136,.2);background:rgba(0,255,136,.02)}
+        .stat-number{font-size:2.5rem;font-weight:700;background:linear-gradient(135deg,#00ff88,#00a8ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .stat-label{color:#888;margin-top:.5rem;font-size:.9rem}
+        .timeline{position:relative;max-width:900px;margin:0 auto}
+        .timeline::before{content:'';position:absolute;left:50%;transform:translateX(-50%);width:2px;height:100%;background:linear-gradient(to bottom,#00ff88,#00a8ff,rgba(0,168,255,0))}
+        .timeline-item{display:flex;justify-content:flex-end;padding-right:50%;margin-bottom:3rem;position:relative}
+        .timeline-item:nth-child(even){justify-content:flex-start;padding-left:50%;padding-right:0}
+        .timeline-dot{position:absolute;left:50%;transform:translateX(-50%);width:16px;height:16px;background:#00ff88;border-radius:50%;border:3px solid #0a0a0a;z-index:1}
+        .timeline-content{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.05);border-radius:15px;padding:2rem;margin:0 2rem;transition:all .3s;max-width:400px}
+        .timeline-content:hover{border-color:rgba(0,255,136,.2);transform:translateY(-3px)}
+        .timeline-date{color:#00ff88;font-size:.85rem;font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:.5rem}
+        .timeline-title{font-size:1.2rem;font-weight:600;margin-bottom:.3rem}
+        .timeline-company{color:#00a8ff;font-size:.95rem;margin-bottom:1rem}
+        .timeline-description{color:#888;font-size:.9rem}
+        .timeline-description ul{list-style:none;padding:0}
+        .timeline-description ul li{padding-left:1.2rem;position:relative;margin-bottom:.3rem}
+        .timeline-description ul li::before{content:'▹';color:#00ff88;position:absolute;left:0}
+        .skills-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2rem}
+        .skill-category{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:15px;padding:2rem;transition:all .3s}
+        .skill-category:hover{border-color:rgba(0,255,136,.2);transform:translateY(-5px)}
+        .skill-category-title{font-size:1.2rem;font-weight:600;margin-bottom:1.5rem;color:#00ff88;display:flex;align-items:center;gap:.5rem}
+        .skill-item{margin-bottom:1.2rem}
+        .skill-header{display:flex;justify-content:space-between;margin-bottom:.5rem}
+        .skill-name{font-size:.9rem;color:#ccc}
+        .skill-percentage{font-size:.9rem;color:#00ff88}
+        .skill-bar{height:6px;background:rgba(255,255,255,.05);border-radius:3px;overflow:hidden}
+        .skill-progress{height:100%;background:linear-gradient(90deg,#00ff88,#00a8ff);border-radius:3px;width:0;transition:width 1.5s ease}
+        .hobbies-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2rem}
+        .hobby-card{text-align:center;padding:2.5rem 1.5rem;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:15px;transition:all .3s}
+        .hobby-card:hover{border-color:rgba(0,255,136,.3);transform:translateY(-10px);background:rgba(0,255,136,.02)}
+        .hobby-icon{font-size:2.5rem;margin-bottom:1rem;background:linear-gradient(135deg,#00ff88,#00a8ff);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .hobby-name{font-size:1.1rem;font-weight:600;margin-bottom:.5rem}
+        .hobby-description{color:#888;font-size:.85rem}
+        .contact-container{display:grid;grid-template-columns:1fr 1fr;gap:4rem;max-width:900px;margin:0 auto}
+        .contact-info{display:flex;flex-direction:column;gap:2rem}
+        .contact-item{display:flex;align-items:center;gap:1.5rem;padding:1.5rem;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.05);border-radius:12px;transition:all .3s}
+        .contact-item:hover{border-color:rgba(0,255,136,.2);transform:translateX(5px)}
+        .contact-icon{width:50px;height:50px;background:linear-gradient(135deg,rgba(0,255,136,.1),rgba(0,168,255,.1));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;color:#00ff88;flex-shrink:0}
+        .contact-label{color:#888;font-size:.85rem;text-transform:uppercase;letter-spacing:1px}
+        .contact-value{color:#e0e0e0;font-size:1rem;margin-top:.2rem}
+        .contact-form{display:flex;flex-direction:column;gap:1.5rem}
+        .form-group input,.form-group textarea{width:100%;padding:1rem 1.2rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:10px;color:#e0e0e0;font-size:1rem;transition:all .3s;outline:none}
+        .form-group input:focus,.form-group textarea:focus{border-color:#00ff88;box-shadow:0 0 20px rgba(0,255,136,.1)}
+        .form-group textarea{min-height:150px;resize:vertical}
+        .btn-submit{align-self:flex-start;padding:1rem 3rem;background:linear-gradient(135deg,#00ff88,#00a8ff);color:#0a0a0a;border:none;border-radius:50px;font-size:1rem;font-weight:600;cursor:pointer;transition:all .3s;text-transform:uppercase;letter-spacing:1px}
+        .btn-submit:hover{transform:translateY(-3px);box-shadow:0 10px 40px rgba(0,255,136,.3)}
+        .footer{text-align:center;padding:3rem 2rem;border-top:1px solid rgba(255,255,255,.05);color:#555;font-size:.9rem}
+        .footer-social{display:flex;justify-content:center;gap:1.5rem;margin-bottom:1.5rem}
+        .footer-social a{width:45px;height:45px;border-radius:50%;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:#888;font-size:1.1rem;transition:all .3s;text-decoration:none}
+        .footer-social a:hover{border-color:#00ff88;color:#00ff88;transform:translateY(-3px)}
+        @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+        .reveal{opacity:0;transform:translateY(30px);transition:all .8s ease}
+        .reveal.active{opacity:1;transform:translateY(0)}
+        @media (max-width:768px){.nav-links{display:none;position:absolute;top:100%;left:0;width:100%;background:rgba(10,10,10,.98);flex-direction:column;padding:2rem;gap:1.5rem;border-bottom:1px solid rgba(0,255,136,.1)}
+        .nav-links.active{display:flex}.nav-toggle{display:flex}.hero-title{font-size:2rem}.hero-subtitle{font-size:1.2rem}.about-grid{grid-template-columns:1fr}.timeline::before{left:20px}.timeline-item,.timeline-item:nth-child(even){padding-left:50px;padding-right:0;justify-content:flex-start}.timeline-dot{left:20px}.timeline-content{margin:0;max-width:100%}.contact-container{grid-template-columns:1fr}.hobbies-grid{grid-template-columns:1fr 1fr}}
+        @media (max-width:480px){.hero-title{font-size:1.8rem}.section-title{font-size:1.8rem}.hobbies-grid{grid-template-columns:1fr}.about-stats,.about-info{grid-template-columns:1fr}}
+        ::-webkit-scrollbar{width:8px}::-webkit-scrollbar-track{background:#0a0a0a}::-webkit-scrollbar-thumb{background:linear-gradient(to bottom,#00ff88,#00a8ff);border-radius:4px}
+        .cursor-glow{position:fixed;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(0,255,136,.03) 0%,transparent 70%);pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:all .1s ease}
+    </style>
 </head>
 <body>
+    <div class="bg-animation"></div>
+    <div class="cursor-glow" id="cursorGlow"></div>
 
-<div id="progress-bar"></div>
+    <nav class="navbar" id="navbar">
+        <div class="nav-logo">MT</div>
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#accueil">Accueil</a></li>
+            <li><a href="#apropos">À propos</a></li>
+            <li><a href="#experience">Expérience</a></li>
+            <li><a href="#competences">Compétences</a></li>
+            <li><a href="#loisirs">Loisirs</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="nav-toggle" id="navToggle" onclick="toggleNav()">
+            <span></span><span></span><span></span>
+        </div>
+    </nav>
 
-<!-- NAV -->
-<nav>
-  <div class="nav-logo">MT</div>
-  <ul class="nav-links">
-    <li><a href="#home">Accueil</a></li>
-    <li><a href="#about">À propos</a></li>
-    <li><a href="#skills">Compétences</a></li>
-    <li><a href="#experience">Expérience</a></li>
-    <li><a href="#contact">Contact</a></li>
-  </ul>
-</nav>
-
-<!-- HERO -->
-<section id="home">
-  <div class="hero-glow hero-glow-1"></div>
-  <div class="hero-glow hero-glow-2"></div>
-  <div class="hero-content">
-    <div class="hero-badge">✦ Disponible en alternance</div>
-    <h1 class="hero-name">MEHDERIC<br>TALBOT</h1>
-    <div class="hero-title-wrap">
-      <span id="typewriter"></span><span class="cursor"></span>
-    </div>
-    <div class="hero-btns">
-      <a href="#contact" class="btn btn-primary">📬 Me contacter</a>
-      <a href="#about" class="btn btn-outline">En savoir plus →</a>
-    </div>
-  </div>
-</section>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="section-inner">
-    <div class="section-label reveal">À propos</div>
-    <h2 class="section-title reveal">Informations personnelles</h2>
-    <div class="about-grid">
-      <div class="info-card reveal">
-        <div class="info-icon">📍</div>
-        <div class="info-label">Localisation</div>
-        <div class="info-value">6 Rue des Lauriers<br>Saint-Claude<br>Basse-Terre, Guadeloupe</div>
-      </div>
-      <div class="info-card reveal">
-        <div class="info-icon">📞</div>
-        <div class="info-label">Téléphone</div>
-        <div class="info-value">0690 48 49 27<br>0690 41 34 34</div>
-      </div>
-      <div class="info-card reveal">
-        <div class="info-icon">✉️</div>
-        <div class="info-label">Email</div>
-        <div class="info-value">medodotalbot@gmail.com</div>
-      </div>
-      <div class="info-card reveal">
-        <div class="info-icon">🚗</div>
-        <div class="info-label">Permis</div>
-        <div class="info-value">Permis B</div>
-      </div>
-      <div class="info-card reveal" style="grid-column: span 2;">
-        <div class="info-icon">🎓</div>
-        <div class="info-label">Formation</div>
-        <div class="formation-item">
-          <div class="formation-year">2025</div>
-          <div class="formation-name">BAC PRO SN</div>
-          <div class="formation-sub">Systèmes Numériques</div>
-        </div>
-        <div class="formation-item">
-          <div class="formation-year">2021</div>
-          <div class="formation-name">Brevet des Collèges</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SKILLS -->
-<section id="skills">
-  <div class="section-inner">
-    <div class="section-label reveal">Compétences</div>
-    <h2 class="section-title reveal">Mes savoir-faire</h2>
-    <div class="skills-grid">
-      <div class="skill-card reveal">
-        <div class="skill-head">
-          <span class="skill-icon">🔧</span>
-          <span class="skill-name">Maintenance</span>
-        </div>
-        <div class="skill-bar-wrap"><div class="skill-bar" data-width="85"></div></div>
-        <div class="skill-desc">Maintenance des ordinateurs, câblages réseaux</div>
-      </div>
-      <div class="skill-card reveal">
-        <div class="skill-head">
-          <span class="skill-icon">📦</span>
-          <span class="skill-name">Installation</span>
-        </div>
-        <div class="skill-bar-wrap"><div class="skill-bar" data-width="80"></div></div>
-        <div class="skill-desc">Installation des équipements et services</div>
-      </div>
-      <div class="skill-card reveal">
-        <div class="skill-head">
-          <span class="skill-icon">💻</span>
-          <span class="skill-name">Informatique & Électronique</span>
-        </div>
-        <div class="skill-bar-wrap"><div class="skill-bar" data-width="90"></div></div>
-        <div class="skill-desc">Expertise en systèmes informatiques et électroniques</div>
-      </div>
-      <div class="skill-card reveal">
-        <div class="skill-head">
-          <span class="skill-icon">🛠️</span>
-          <span class="skill-name">Réparation</span>
-        </div>
-        <div class="skill-bar-wrap"><div class="skill-bar" data-width="78"></div></div>
-        <div class="skill-desc">Changement de plaque thermique, écrans, batteries</div>
-      </div>
-      <div class="skill-card reveal">
-        <div class="skill-head">
-          <span class="skill-icon">⚙️</span>
-          <span class="skill-name">Paramétrage</span>
-        </div>
-        <div class="skill-bar-wrap"><div class="skill-bar" data-width="75"></div></div>
-        <div class="skill-desc">Paramétrage matériels informatiques </div>
-      </div>
-      <div class="skill-card reveal">
-        <div class="skill-head">
-          <span class="skill-icon">📊</span>
-          <span class="skill-name">Suite Office</span>
-        </div>
-        <div class="skill-bar-wrap"><div class="skill-bar" data-width="82"></div></div>
-        <div class="skill-desc">Maîtrise Word, Excel, PowerPoint</div>
-      </div>
-      <div class="skill-card reveal" style="grid-column: span 2;">
-        <div class="skill-head">
-          <span class="skill-icon">🌍</span>
-          <span class="skill-name">Langues</span>
-        </div>
-        <div class="lang-grid">
-          <div class="lang-pill"><span class="lang-dot lang-native"></span> Français — Natif</div>
-          <div class="lang-pill"><span class="lang-dot lang-inter"></span> Anglais — Intermédiaire</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- EXPERIENCE -->
-<section id="experience">
-  <div class="section-inner">
-    <div class="section-label reveal">Parcours</div>
-    <h2 class="section-title reveal">Expériences professionnelles</h2>
-    <div class="timeline">
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-year">2024</div>
-        <div class="timeline-card">
-          <div class="timeline-role">Stagiaire à la RÉGION</div>
-          <div class="timeline-desc">Stage en informatique</div>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-year">2024</div>
-        <div class="timeline-card">
-          <div class="timeline-role">Stagiaire chez MARC FELER</div>
-          <div class="timeline-desc">Vieux Fort — Stage technique</div>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-year">2023</div>
-        <div class="timeline-card">
-          <div class="timeline-role">Stagiaire à la MAIRIE de ST CLAUDE</div>
-          <div class="timeline-desc">Stage en services informatiques</div>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot"></div>
-        <div class="timeline-year">2021</div>
-        <div class="timeline-card">
-          <div class="timeline-role">Stagiaire au CONSEIL DÉPARTEMENTAL</div>
-          <div class="timeline-desc">Première expérience professionnelle</div>
-        </div>
-      </div>
-    </div>
-    <div class="qualities-wrap reveal">
-      <div class="qualities-title">Qualités professionnelles</div>
-      <div class="qualities-list">
-        <span class="quality-tag">Autonome</span>
-        <span class="quality-tag">Esprit d'équipe</span>
-        <span class="quality-tag">Rigoureux</span>
-        <span class="quality-tag">Organisé</span>
-        <span class="quality-tag">Actif</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div class="section-inner">
-    <div class="section-label reveal">Contact</div>
-    <h2 class="section-title reveal">Me contacter</h2>
-    <div class="contact-grid">
-      <div class="reveal">
-        <h3>Informations de contact</h3>
-        <a class="contact-item" href="mailto:mehderictalbot7@gmail.com">
-          <span class="contact-item-icon">✉️</span>
-          <span class="contact-item-text">mehderictalbot7@gmail.com</span>
-        </a>
-        <a class="contact-item" href="tel:0690484927">
-          <span class="contact-item-icon">📞</span>
-          <span class="contact-item-text">0690 48 49 27</span>
-        </a>
-        <a class="contact-item" href="tel:0690413434">
-          <span class="contact-item-icon">📱</span>
-          <span class="contact-item-text">0690 41 34 34</span>
-        </a>
-        <div class="contact-item" style="cursor:default;">
-          <span class="contact-item-icon">📍</span>
-          <span class="contact-item-text">6 Rue des Lauriers, Saint-Claude<br>Basse-Terre, Guadeloupe</span>
-        </div>
-      </div>
-
-      <div class="reveal">
-        <div class="emailjs-note">
-          ⚙️ <strong>Configuration EmailJS requise :</strong><br>
-          Pour activer l'envoi d'email, créer un compte gratuit sur <a href="https://emailjs.com" target="_blank">emailjs.com</a>, puis remplacer dans le code :<br>
-          <code>YOUR_PUBLIC_KEY</code> · <code>YOUR_SERVICE_ID</code> · <code>YOUR_TEMPLATE_ID</code>
-        </div>
-        <form class="contact-form" id="contactForm">
-          <div class="form-row">
-            <div class="form-group">
-              <label class="form-label" for="name">Nom</label>
-              <input class="form-input" type="text" id="name" name="from_name" placeholder="Votre nom" required>
+    <section class="hero" id="accueil">
+        <div class="hero-content">
+            <div class="hero-avatar"><img src="https://via.placeholder.com/150" alt="Mehderic Talbot"></div>
+            <h1 class="hero-title">Mehderic Talbot</h1>
+            <p class="hero-subtitle">Mécanicien Polyvalent</p>
+            <p class="hero-description">Passionné par la mécanique sous toutes ses formes, je mets mon expertise au service de la performance et de la fiabilité.</p>
+            <div class="hero-buttons">
+                <a href="#contact" class="btn btn-primary">Me contacter</a>
+                <a href="#experience" class="btn btn-secondary">Mon parcours</a>
             </div>
-            <div class="form-group">
-              <label class="form-label" for="email">Email</label>
-              <input class="form-input" type="email" id="email" name="from_email" placeholder="votre@email.com" required>
+        </div>
+        <div class="scroll-indicator"><i class="fas fa-chevron-down"></i></div>
+    </section>
+
+    <section class="section" id="apropos">
+        <div class="section-header reveal">
+            <h2 class="section-title">À propos de moi</h2>
+            <p class="section-subtitle">Découvrez mon profil et mes aspirations</p>
+        </div>
+        <div class="about-grid">
+            <div class="about-text reveal">
+                <p>Mécanicien polyvalent avec une solide expérience dans l'entretien et la réparation de véhicules, engins et matériel nautique.</p>
+                <p>Rigoureux et autonome, je m'adapte rapidement à de nouveaux environnements de travail et je suis toujours à la recherche de nouveaux défis techniques.</p>
+                <div class="about-info">
+                    <div class="info-item"><div class="label">Localisation</div><div class="value">Nouvelle-Calédonie</div></div>
+                    <div class="info-item"><div class="label">Permis</div><div class="value">B (Véhicule léger)</div></div>
+                    <div class="info-item"><div class="label">Disponibilité</div><div class="value">Immédiate</div></div>
+                    <div class="info-item"><div class="label">Statut</div><div class="value">En recherche</div></div>
+                </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="subject">Sujet</label>
-            <input class="form-input" type="text" id="subject" name="subject" placeholder="Objet du message" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="message">Message</label>
-            <textarea class="form-textarea" id="message" name="message" placeholder="Votre message..." required></textarea>
-          </div>
-          <button type="submit" class="btn-send" id="submitBtn">📨 Envoyer le message</button>
-          <div class="form-feedback" id="formFeedback"></div>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
+            <div class="about-stats reveal">
+                <div class="stat-card"><div class="stat-number" data-count="5">0</div><div class="stat-label">Années d'expérience</div></div>
+                <div class="stat-card"><div class="stat-number" data-count="4">0</div><div class="stat-label">Postes occupés</div></div>
+                <div class="stat-card"><div class="stat-number" data-count="3">0</div><div class="stat-label">Domaines maîtrisés</div></div>
+                <div class="stat-card"><div class="stat-number" data-count="100">0</div><div class="stat-label">% Motivation</div></div>
+            </div>
+        </div>
+    </section>
 
-<footer>
-  © 2026 MEHDERIC TALBOT — Tous droits réservés
-</footer>
+    <section class="section" id="experience">
+        <div class="section-header reveal">
+            <h2 class="section-title">Expérience Professionnelle</h2>
+        </div>
+        <div class="timeline">
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-date">2023 - Présent</div>
+                    <h3 class="timeline-title">Mécanicien Polyvalent</h3>
+                    <div class="timeline-company">Nauti Services</div>
+                    <div class="timeline-description">
+                        <ul>
+                            <li>Entretien courant</li>
+                            <li>Moteurs hors bord</li>
+                            <li>Système hydraulique</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-date">2022 - 2023</div>
+                    <h3 class="timeline-title">Mécanicien Engins</h3>
+                    <div class="timeline-company">SLN (Doniambo)</div>
+                    <div class="timeline-description">
+                        <ul><li>Maintenance préventive et corrective</li><li>Engins de chantier et manutention</li><li>Diagnostic de pannes complexes</li></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-date">2021 - 2022</div>
+                    <h3 class="timeline-title">Mécanicien Automobile</h3>
+                    <div class="timeline-company">Garage Auto Plus</div>
+                    <div class="timeline-description">
+                        <ul><li>Révision et entretien courant</li><li>Réparation moteur et transmission</li><li>Diagnostic électronique</li></ul>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-item reveal">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-date">2020 - 2021</div>
+                    <h3 class="timeline-title">Apprenti Mécanicien</h3>
+                    <div class="timeline-company">Centre de Formation</div>
+                    <div class="timeline-description">
+                        <ul><li>Formation en alternance</li><li>Bases de la mécanique générale</li><li>Soudure et usinage</li></ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<script>
-  // ── EMAILJS INIT ── remplace les 3 valeurs ci-dessous
-  emailjs.init("MEpFNuBQWnN4UUSpU");
-  const EMAILJS_SERVICE  = "service_cpnk7qa";
-  const EMAILJS_TEMPLATE = "template_iy5cc5w";
+    <section class="section" id="competences">
+        <div class="section-header reveal"><h2 class="section-title">Compétences</h2></div>
+        <div class="skills-container">
+            <div class="skill-category reveal">
+                <h3 class="skill-category-title"><i class="fas fa-car"></i> Mécanique Automobile</h3>
+                <div class="skill-item"><div class="skill-header"><span class="skill-name">Moteur thermique</span><span class="skill-percentage">90%</span></div><div class="skill-bar"><div class="skill-progress" data-width="90"></div></div></div>
+                <div class="skill-item"><div class="skill-header"><span class="skill-name">Diagnostic électronique</span><span class="skill-percentage">75%</span></div><div class="skill-bar"><div class="skill-progress" data-width="75"></div></div></div>
+                <div class="skill-item"><div class="skill-header"><span class="skill-name">Transmission / Embrayage</span><span class="skill-percentage">85%</span></div><div class="skill-bar"><div class="skill-progress" data-width="85"></div></div></div>
+            </div>
+            <div class="skill-category reveal">
+                <h3 class="skill-category-title"><i class="fas fa-ship"></i> Mécanique Nautique</h3>
+                <div class="skill-item"><div class="skill-header"><span class="skill-name">Moteurs hors-bord</span><span class="skill-percentage">85%</span></div><div class="skill-bar"><div class="skill-progress" data-width="85"></div></div></div>
+                <div class="skill-item"><div class="skill-header"><span class="skill-name">Systèmes hydrauliques</span><span class="skill-percentage">80%</span></div><div class="skill-bar"><div class="skill-progress" data-width="80"></div></div></div>
+                <div class="skill-item"><div class="skill-header"><span class="skill-name">Entretien coque & structure</span><span class="skill-percentage">70%</span></div><div class="skill-bar"><div class="skill-progress" data-width="70"></div></div></div>
+            </div>
+            <div class="skill-category reveal">
+                <h3 class="skill-category-title"><i class="fas fa-tools"></i> Compétences Transversales</h3>
+                <div class="skill-item"><div class="skill-header"><span class="skill-name">Soudure (ARC / MIG)</span><span class="skill-percentage">80%</span></div><div class="skill-bar"><div class="skill-progress" data-width="80"></div></div></div>
+                <div class="skill-item"><div class="skill-header"><span class="skill-name">Lecture de plans</span><span class="skill-percentage">70%</span></div><div class="skill-bar"><div class="skill-progress" data-width="70"></div></div></div>
+                <div class="skill-item"><div class="skill-header"><span class="skill-name">Travail en équipe</span><span class="skill-percentage">95%</span></div><div class="skill-bar"><div class="skill-progress" data-width="95"></div></div></div>
+            </div>
+        </div>
+    </section>
 
-  // ── SCROLL PROGRESS ──
-  window.addEventListener('scroll', () => {
-    const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
-    document.getElementById('progress-bar').style.width = pct + '%';
-  });
+    <section class="section" id="loisirs">
+        <div class="section-header reveal"><h2 class="section-title">Loisirs & Passions</h2></div>
+        <div class="hobbies-grid">
+            <div class="hobby-card reveal"><div class="hobby-icon"><i class="fas fa-motorcycle"></i></div><h3 class="hobby-name">Moto</h3><p class="hobby-description">Passionné de mécanique moto et de balades</p></div>
+            <div class="hobby-card reveal"><div class="hobby-icon"><i class="fas fa-fish"></i></div><h3 class="hobby-name">Pêche</h3><p class="hobby-description">Pêche en mer et en rivière</p></div>
+            <div class="hobby-card reveal"><div class="hobby-icon"><i class="fas fa-futbol"></i></div><h3 class="hobby-name">Sport</h3><p class="hobby-description">Football et activités sportives</p></div>
+            <div class="hobby-card reveal"><div class="hobby-icon"><i class="fas fa-wrench"></i></div><h3 class="hobby-name">Bricolage</h3><p class="hobby-description">Projets mécaniques personnels</p></div>
+        </div>
+    </section>
 
-  // ── REVEAL ON SCROLL ──
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        // animate skill bars
-        e.target.querySelectorAll('.skill-bar').forEach(bar => {
-          bar.style.width = bar.dataset.width + '%';
-        });
-      }
-    });
-  }, { threshold: 0.15 });
+    <section class="section" id="contact">
+        <div class="section-header reveal">
+            <h2 class="section-title">Me Contacter</h2>
+            <p class="section-subtitle">N'hésitez pas à me joindre</p>
+        </div>
+        <div class="contact-container">
+            <div class="contact-info reveal">
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                    <div><div class="contact-label">Email</div><div class="contact-value">mjgpvkdl@gmail.com</div></div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                    <div><div class="contact-label">Téléphone</div><div class="contact-value">+687 XX XX XX</div></div>
+                </div>
+                <div class="contact-item">
+                    <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div><div class="contact-label">Localisation</div><div class="contact-value">Nouméa, Nouvelle-Calédonie</div></div>
+                </div>
+            </div>
+            <div class="reveal">
+                <form class="contact-form" action="mailto:mjgpvkdl@gmail.com" method="post" enctype="text/plain">
+                    <div class="form-group"><input type="text" name="name" placeholder="Votre nom" required></div>
+                    <div class="form-group"><input type="email" name="email" placeholder="Votre email" required></div>
+                    <div class="form-group"><textarea name="message" placeholder="Votre message" required></textarea></div>
+                    <button type="submit" class="btn-submit">Envoyer le message</button>
+                </form>
+            </div>
+        </div>
+    </section>
 
-  document.querySelectorAll('.reveal, .timeline-item').forEach(el => observer.observe(el));
+    <footer class="footer">
+        <div class="footer-social">
+            <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+        <p>© 2025 Mehderic Talbot. Tous droits réservés.</p>
+    </footer>
 
-  // ── TYPEWRITER ──
-  const phrases = [
-    "Technicien Informatique",
-    "En alternance",
-    "Systèmes Numériques",
-    "Passionné d'informatique"
-  ];
-  let pi = 0, ci = 0, deleting = false;
-  const tw = document.getElementById('typewriter');
-
-  function type() {
-    const phrase = phrases[pi];
-    if (!deleting) {
-      tw.textContent = phrase.slice(0, ++ci);
-      if (ci === phrase.length) { deleting = true; setTimeout(type, 2000); return; }
-    } else {
-      tw.textContent = phrase.slice(0, --ci);
-      if (ci === 0) { deleting = false; pi = (pi + 1) % phrases.length; }
-    }
-    setTimeout(type, deleting ? 50 : 90);
-  }
-  setTimeout(type, 800);
-
-  // ── CONTACT FORM ──
-  document.getElementById('contactForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const btn = document.getElementById('submitBtn');
-    const fb  = document.getElementById('formFeedback');
-    btn.disabled = true;
-    btn.textContent = '⏳ Envoi en cours...';
-    fb.className = 'form-feedback';
-
-    try {
-      await emailjs.sendForm(EMAILJS_SERVICE, EMAILJS_TEMPLATE, this);
-      fb.textContent = '✅ Message envoyé avec succès ! Je vous répondrai rapidement.';
-      fb.className = 'form-feedback success';
-      this.reset();
-    } catch (err) {
-      if (EMAILJS_SERVICE === 'service_cpnk7qa') {
-        fb.textContent = '⚙️ EmailJS non configuré — remplacez les clés dans le code HTML (voir la note ci-dessus).';
-      } else {
-        fb.textContent = '❌ Une erreur est survenue. Contactez-moi directement par email.';
-      }
-      fb.className = 'form-feedback error';
-    }
-    btn.disabled = false;
-    btn.textContent = '📨 Envoyer le message';
-  });
-</script>
+    <script>
+        function toggleNav(){document.getElementById('navLinks').classList.toggle('active')}
+        window.addEventListener('scroll',()=>{document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50)})
+        document.addEventListener('mousemove',(e)=>{document.getElementById('cursorGlow').style.left=e.clientX+'px';document.getElementById('cursorGlow').style.top=e.clientY+'px'})
+        const r=document.querySelectorAll('.reveal')
+        const ro=()=>{r.forEach(e=>{if(e.getBoundingClientRect().top<window.innerHeight-150)e.classList.add('active')})}
+        window.addEventListener('scroll',ro);ro()
+        window.addEventListener('scroll',()=>{document.querySelectorAll('.skill-progress').forEach(b=>{if(b.getBoundingClientRect().top<window.innerHeight-100)b.style.width=b.dataset.width+'%'})})
+        window.addEventListener('scroll',()=>{document.querySelectorAll('.stat-number').forEach(c=>{if(c.getBoundingClientRect().top<window.innerHeight-100&&!c.classList.contains('counted')){c.classList.add('counted');let t=+c.dataset.count,i=0,inc=t/50,timer=setInterval(()=>{i+=inc;c.textContent=Math.ceil(i);if(i>=t){c.textContent=t;clearInterval(timer)}},30)}})})
+        document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href')).scrollIntoView({behavior:'smooth'})})})
+    </script>
 </body>
 </html>
